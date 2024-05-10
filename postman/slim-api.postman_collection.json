@@ -12,9 +12,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{hosting}}/loans",
+					"raw": "{{host}}/loans",
 					"host": [
-						"{{hosting}}"
+						"{{host}}"
 					],
 					"path": [
 						"loans"
@@ -72,7 +72,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"clientId\":\r\n    \"sum\": 600,\r\n    \"returnDate\": \"22-11-2024\",\r\n    \"rate\": 15\r\n}",
+					"raw": "{\r\n    \"clientId\": 11,\r\n    \"returnDate\": \"22-11-24\",\r\n    \"rate\": 15\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -168,6 +168,41 @@
 					"header": null,
 					"cookie": [],
 					"body": "{\r\n    \"message\": \"Ошибка получения данных\"\r\n}"
+				},
+				{
+					"name": "Loan add error 2",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\": 11,\r\n    \"returnDate\": \"22-11-24\",\r\n    \"rate\": 15\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/loans",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"loans"
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\r\n    \"message\": \"Некорректные данные в следующих полях:\",\r\n    \"errors\": [\r\n        \"sum\",\r\n        \"returnDate\"\r\n    ]\r\n}"
 				}
 			]
 		},
@@ -183,9 +218,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{hosting}}/loans/1",
+					"raw": "{{host}}/loans/1",
 					"host": [
-						"{{hosting}}"
+						"{{host}}"
 					],
 					"path": [
 						"loans",
@@ -244,13 +279,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{host-d}}/loans/19",
+					"raw": "{{host}}/loans/1",
 					"host": [
-						"{{host-d}}"
+						"{{host}}"
 					],
 					"path": [
 						"loans",
-						"19"
+						"1"
 					]
 				}
 			},
@@ -320,9 +355,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{host-d}}/loans/19",
+							"raw": "{{host}}/loans/19",
 							"host": [
-								"{{host-d}}"
+								"{{host}}"
 							],
 							"path": [
 								"loans",
@@ -334,6 +369,50 @@
 					"header": null,
 					"cookie": [],
 					"body": "{\r\n    \"message\": \"Данные не найдены\"\r\n}"
+				},
+				{
+					"name": "Loan update error 2",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\": 11,\r\n    \"returnDate\": \"22-11-24\",\r\n    \"rate\": 15\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/loans/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"loans",
+								"1"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Некорректные данные в следующих полях:\",\n    \"errors\": [\n        \"sum\",\n        \"returnDate\"\n    ]\n}"
 				}
 			]
 		},

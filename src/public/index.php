@@ -5,6 +5,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use App\Controller\LoanResourceController;
+use App\Validator;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -50,6 +51,19 @@ $app->post('/loans', function (Request $request, Response $response) {
         return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
     }
 
+    $validated = Validator::validate($request->getParsedBody());
+
+    if (is_array($validated)) {
+        $errorsList = array_keys(array_filter($validated, function ($el) {
+            return !$el;
+        }));
+        $response->getBody()->write(json_encode([
+            'message' => 'Некорректные данные в следующих полях:',
+            'errors' => $errorsList
+        ]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+    }
+
     $date = LoanResourceController::store($request->getParsedBody());
     $response->getBody()->write(json_encode($date));
     return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
@@ -70,11 +84,24 @@ $app->put('/loans/{id}', function (Request $request, Response $response, $args) 
             'message' => 'Данные не найдены'
         ]));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(404);
-    } else {
-        $date = LoanResourceController::update($request->getParsedBody(), $args['id']);
-        $response->getBody()->write(json_encode($date));
-        return $response->withHeader('Content-Type', 'application/json');
     }
+
+    $validated = Validator::validate($request->getParsedBody());
+
+    if (is_array($validated)) {
+        $errorsList = array_keys(array_filter($validated, function ($el) {
+            return !$el;
+        }));
+        $response->getBody()->write(json_encode([
+            'message' => 'Некорректные данные в следующих полях:',
+            'errors' => $errorsList
+        ]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
+    }
+
+    $date = LoanResourceController::update($request->getParsedBody(), $args['id']);
+    $response->getBody()->write(json_encode($date));
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->delete('/loans/{id}', function (Request $request, Response $response, $args) {
